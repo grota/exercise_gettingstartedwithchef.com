@@ -9,3 +9,5 @@
 
 /chef-client-running.pid
 /chef-stacktrace.out
+/wp-secrets.php
+/wordpress-latest.tar.gz

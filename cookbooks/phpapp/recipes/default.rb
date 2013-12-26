@@ -52,3 +52,33 @@ execute "untar-wordpress" do
   command "tar --strip-components 1 -xzf " + wordpress_latest
   creates node['phpapp']['path'] + "/wp-settings.php"
 end
+
+#install wp
+wp_secrets = Chef::Config[:file_cache_path] + '/wp-secrets.php'
+
+remote_file wp_secrets do
+  source 'https://api.wordpress.org/secret-key/1.1/salt/'
+  action :create_if_missing
+  mode 0644
+end
+
+salt_data = ''
+
+ruby_block 'fetch-salt-data' do
+  block do
+    salt_data = File.read(wp_secrets)
+  end
+  action :create
+end
+
+template node['phpapp']['path'] + '/wp-config.php' do
+  source 'wp-config.php.erb'
+  mode 0755
+  owner 'root'
+  group 'root'
+  variables(
+    :database        => node['phpapp']['database'],
+    :user            => node['phpapp']['db_username'],
+    :password        => node['phpapp']['db_password'],
+    :wp_secrets      => salt_data)
+end
