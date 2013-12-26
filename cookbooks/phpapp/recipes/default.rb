@@ -63,14 +63,13 @@ remote_file wp_secrets do
   mode 0644
 end
 
-salt_data = ''
-
 ruby_block 'fetch-salt-data' do
   block do
     salt_data = File.read(wp_secrets)
   end
   action :create
 end
+salt_data = File.read(wp_secrets)
 
 template node['phpapp']['path'] + '/wp-config.php' do
   source 'wp-config.php.erb'
