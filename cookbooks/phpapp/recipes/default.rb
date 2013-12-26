@@ -37,6 +37,7 @@ wordpress_latest = Chef::Config[:file_cache_path] + "/wordpress-latest.tar.gz"
 remote_file wordpress_latest do
   source "http://wordpress.org/latest.tar.gz"
   mode "0644"
+  checksum 'c419de49816b6483ab387567222898c02e8acd6ce64d6466a38f2fc05ebefb85'
 end
 
 directory node["phpapp"]["path"] do
