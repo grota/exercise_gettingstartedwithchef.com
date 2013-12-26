@@ -6,3 +6,6 @@
 ###
 .chef/*.pem
 .chef/encrypted_data_bag_secret
+
+/chef-client-running.pid
+/chef-stacktrace.out

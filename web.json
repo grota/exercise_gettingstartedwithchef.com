@@ -4,5 +4,6 @@
     "server_debian_password": "debian-server-pwd-123098d",
     "server_root_password": "manager",
     "server_repl_password" : "mysql-repl-pwd-12893ehui"
-  }
+  },
+  "phpapp": { "db_password": "passwd-of-user-phpapp" }
 }
