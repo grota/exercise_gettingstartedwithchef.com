@@ -5,5 +5,8 @@
     "server_root_password": "manager",
     "server_repl_password" : "mysql-repl-pwd-12893ehui"
   },
-  "phpapp": { "db_password": "passwd-of-user-phpapp" }
+  "phpapp": {
+    "db_password": "passwd-of-user-phpapp",
+    "server_name": "test_chef_vhost_name"
+  }
 }
