@@ -18,23 +18,30 @@ apache_site "default" do
     enable false
 end
 
-mysql_database node['phpapp']['database'] do
-  connection ({:host => 'localhost', :username => 'root', :password => node['mysql']['server_root_password']})
-  action :create
+sites = data_bag("wp-sites")
+
+sites.each do |site|
+  opts = data_bag_item("wp-sites", site)
+
+  mysql_database opts['database'] do
+    connection ({:host => 'localhost', :username => 'root', :password => node['mysql']['server_root_password']})
+    action :create
+  end
+
+  mysql_database_user opts['db_username'] do
+    connection ({:host => 'localhost', :username => 'root', :password => node['mysql']['server_root_password']})
+    password opts['db_password']
+    database_name opts['database']
+    privileges [:select,:update,:insert,:create,:delete]
+    action :grant
+  end
+
+  wordpress_site opts["host"] do
+    path          "/var/www/" + opts['host']
+    database      opts["database"]
+    db_username   opts["db_username"]
+    db_password   opts["db_password"]
+    template      "site.conf.erb"
+  end
 end
 
-mysql_database_user node['phpapp']['db_username'] do
-  connection ({:host => 'localhost', :username => 'root', :password => node['mysql']['server_root_password']})
-  password node['phpapp']['db_password']
-  database_name node['phpapp']['database']
-  privileges [:select,:update,:insert,:create,:delete]
-  action :grant
-end
-
-wordpress_site node["phpapp"]["server_name"] do
-  path          "/var/www/phpapp"
-  database      node["phpapp"]["database"]
-  db_username   node["phpapp"]["db_username"]
-  db_password   node["phpapp"]["db_password"]
-  template      "site.conf.erb"
-end

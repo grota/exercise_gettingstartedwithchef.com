@@ -2,6 +2,7 @@
 
 current_dir = File.dirname(__FILE__)
 cookbook_path            ["#{current_dir}/../cookbooks"]
+data_bag_path            "#{current_dir}/../data_bags"
 #log_level                :info
 #log_location             STDOUT
 #node_name                "grota"
