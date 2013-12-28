@@ -1,3 +1,7 @@
+grota's NOTE
+============
+Repo used for the tutorial on http://gettingstartedwithchef.com
+
 Overview
 ========
 
